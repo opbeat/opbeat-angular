@@ -1,11 +1,12 @@
 var patchController = require('../../src/angular/patches/controllerPatch')
 
 describe('controllerPatch', function () {
-  var Config = require('../../src/lib/config')
-  var TransactionService = require('../../src/transaction/transaction_service')
+  var opbeatCore = require('opbeat-js-core')
+  var Config = opbeatCore.ConfigService
+  var TransactionService = opbeatCore.TransactionService
 
   var ZoneServiceMock = require('../transaction/zone_service_mock.js')
-  var ServiceFactory = require('../../src/common/serviceFactory')
+  var ServiceFactory = opbeatCore.ServiceFactory
 
   var config
 

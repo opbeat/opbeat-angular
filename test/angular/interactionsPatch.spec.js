@@ -1,8 +1,10 @@
 var patchInteractions = require('../../src/angular/patches/interactionsPatch')
-var TransactionService = require('../../src/transaction/transaction_service')
+var opbeatCore = require('opbeat-js-core')
+
+var TransactionService = opbeatCore.TransactionService
 var logger = require('loglevel')
 var ZoneServiceMock = require('../transaction/zone_service_mock')
-var Config = require('../../src/lib/config')
+var Config = opbeatCore.ConfigService
 
 describe('interactionsPatch', function () {
   var angular, app, config, injector, trService

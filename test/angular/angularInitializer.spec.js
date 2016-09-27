@@ -1,10 +1,11 @@
 var ZoneServiceMock = require('../transaction/zone_service_mock.js')
 var angularInitializer = require('../../src/angular/angularInitializer')
 
-var ServiceContainer = require('../../src/common/serviceContainer')
-var ServiceFactory = require('../../src/common/serviceFactory')
+var opbeatCore = require('opbeat-js-core')
+var ServiceContainer = opbeatCore.ServiceContainer
+var ServiceFactory = opbeatCore.ServiceFactory
 
-var Config = require('../../src/lib/config')
+var Config = opbeatCore.ConfigService
 
 describe('angularInitializer', function () {
   var originalAngular
