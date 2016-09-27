@@ -1,4 +1,4 @@
-var patchController = require('../../src/angular/patches/controllerPatch')
+var patchController = require('../../src/patches/controllerPatch')
 
 describe('controllerPatch', function () {
   var opbeatCore = require('opbeat-js-core')

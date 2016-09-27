@@ -1,4 +1,4 @@
-var patchRootScope = require('../../src/angular/patches/rootScopePatch')
+var patchRootScope = require('../../src/patches/rootScopePatch')
 var opbeatCore = require('opbeat-js-core')
 var TransactionService = opbeatCore.TransactionService
 var logger = require('loglevel')

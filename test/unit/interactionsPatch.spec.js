@@ -1,4 +1,4 @@
-var patchInteractions = require('../../src/angular/patches/interactionsPatch')
+var patchInteractions = require('../../src/patches/interactionsPatch')
 var opbeatCore = require('opbeat-js-core')
 
 var TransactionService = opbeatCore.TransactionService

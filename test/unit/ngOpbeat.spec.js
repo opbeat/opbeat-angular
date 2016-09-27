@@ -3,7 +3,7 @@ describe('ngOpbeat', function () {
 
   var Config = opbeatCore.ConfigService
   var TransactionService = opbeatCore.TransactionService
-  var ngOpbeat = require('../../src/angular/ngOpbeat')
+  var ngOpbeat = require('../../src/ngOpbeat')
   var ServiceContainer = opbeatCore.ServiceContainer
   var ZoneServiceMock = require('../transaction/zone_service_mock.js')
   var ServiceFactory = opbeatCore.ServiceFactory

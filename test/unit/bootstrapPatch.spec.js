@@ -1,4 +1,4 @@
-var patchAngularBootstrap = require('../../src/angular/patches/bootstrapPatch')
+var patchAngularBootstrap = require('../../src/patches/bootstrapPatch')
 var ZoneServiceMock = require('../transaction/zone_service_mock.js')
 
 describe('bootstrapPatch', function () {

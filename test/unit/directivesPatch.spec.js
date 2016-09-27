@@ -1,4 +1,4 @@
-var patchDirectives = require('../../src/angular/patches/directivesPatch')
+var patchDirectives = require('../../src/patches/directivesPatch')
 var opbeatCore = require('opbeat-js-core')
 
 var TransactionService = opbeatCore.TransactionService
