@@ -1,7 +1,8 @@
-var ServiceContainer = require('../../../src/common/serviceContainer')
-var ServiceFactory = require('../../../src/common/serviceFactory')
-var Subscription = require('../../../src/common/subscription')
-var angularInitializer = require('../../../src/angular/angularInitializer')
+var opbeatCore = require('opbeat-js-core')
+var ServiceContainer = opbeatCore.ServiceContainer
+var ServiceFactory = opbeatCore.ServiceFactory
+var Subscription = opbeatCore.Subscription
+var angularInitializer = require('../../../src/angularInitializer')
 
 function TransportMock (transport) {
   this._transport = transport
@@ -78,7 +79,6 @@ function init () {
       }
     })
   }
-
 
   window.e2e = {
     transactionService: transactionService,
