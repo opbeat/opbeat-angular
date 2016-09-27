@@ -1,5 +1,6 @@
-var ServiceContainer = require('../common/serviceContainer')
-var ServiceFactory = require('../common/serviceFactory')
+var opbeatCore = require('opbeat-js-core')
+var ServiceContainer = opbeatCore.ServiceContainer
+var ServiceFactory = opbeatCore.ServiceFactory
 var angularInitializer = require('./angularInitializer')
 
 function init () {

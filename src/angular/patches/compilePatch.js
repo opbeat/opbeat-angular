@@ -1,5 +1,6 @@
-var patchUtils = require('../../common/patchUtils')
-var utils = require('../../lib/utils')
+var opbeatCore = require('opbeat-js-core')
+var patchUtils = opbeatCore.patchUtils
+var utils = opbeatCore.utils
 module.exports = function ($provide, transactionService) {
   $provide.decorator('$compile', ['$delegate', '$injector', function ($delegate, $injector) {
     var nameParts = ['$compile', 'compile']

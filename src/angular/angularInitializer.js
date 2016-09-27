@@ -1,6 +1,6 @@
 var ngOpbeat = require('./ngOpbeat')
 var patchAngularBootstrap = require('./patches/bootstrapPatch')
-var patchCommon = require('../common/patchCommon')
+var patchCommon = require('opbeat-js-core').patchCommon
 
 function initialize (serviceContainer) {
   var services = serviceContainer.services

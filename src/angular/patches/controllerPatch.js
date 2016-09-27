@@ -1,4 +1,4 @@
-var utils = require('../../lib/utils')
+var utils = require('opbeat-js-core').utils
 
 function getControllerInfoFromArgs (args) {
   var scope, name
