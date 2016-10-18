@@ -2,7 +2,7 @@ var opbeatCore = require('opbeat-js-core')
 var ServiceFactory = opbeatCore.ServiceFactory
 var Subscription = opbeatCore.Subscription
 var angularInitializer = require('../../../src/angularInitializer')
-
+require('zone.js')
 function TransportMock (transport) {
   this._transport = transport
   this.transactions = []
@@ -52,7 +52,7 @@ function init () {
 
   var opbeatBackend = serviceFactory.getOpbeatBackend()
 
-  angularInitializer(serviceContainer)
+  angularInitializer(serviceFactory)
 
   var configService = services.configService
   if (configService.isPlatformSupported()) {
