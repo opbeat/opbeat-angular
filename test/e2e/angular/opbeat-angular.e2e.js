@@ -1,5 +1,4 @@
 var opbeatCore = require('opbeat-js-core')
-var ServiceContainer = opbeatCore.ServiceContainer
 var ServiceFactory = opbeatCore.ServiceFactory
 var Subscription = opbeatCore.Subscription
 var angularInitializer = require('../../../src/angularInitializer')
@@ -39,7 +38,7 @@ function init () {
   var transportMock = new TransportMock(transport)
   serviceFactory.services['Transport'] = transportMock
 
-  var serviceContainer = new ServiceContainer(serviceFactory)
+  var serviceContainer = serviceFactory.getPerformanceServiceContainer()
   var services = serviceContainer.services
   // var config = serviceFactory.getConfigService()
 

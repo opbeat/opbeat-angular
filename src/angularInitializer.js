@@ -2,7 +2,8 @@ var ngOpbeat = require('./ngOpbeat')
 var patchAngularBootstrap = require('./patches/bootstrapPatch')
 var patchCommon = require('opbeat-js-core').patchCommon
 
-function initialize (serviceContainer) {
+function initialize (serviceFactory) {
+  var serviceContainer = serviceFactory.getPerformanceServiceContainer()
   var services = serviceContainer.services
   if (!services.configService.isPlatformSupported()) {
     services.logger.warn('Platform is not supported.')
@@ -18,6 +19,8 @@ function initialize (serviceContainer) {
       alreadyRegistered = registerOpbeatModule(services)
     }
   }
+
+  services.exceptionHandler = serviceFactory.getExceptionHandler()
   alreadyRegistered = registerOpbeatModule(services)
   patchAngularBootstrap(services.zoneService, beforeBootstrap)
 }

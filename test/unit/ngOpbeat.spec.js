@@ -4,7 +4,6 @@ describe('ngOpbeat', function () {
   var Config = opbeatCore.ConfigService
   var TransactionService = opbeatCore.TransactionService
   var ngOpbeat = require('../../src/ngOpbeat')
-  var ServiceContainer = opbeatCore.ServiceContainer
   var ZoneServiceMock = require('../transaction/zone_service_mock.js')
   var ServiceFactory = opbeatCore.ServiceFactory
 
@@ -22,7 +21,7 @@ describe('ngOpbeat', function () {
     serviceFactory.services['ConfigService'] = config
     serviceFactory.services['Logger'] = logger = Object.create(serviceFactory.getLogger())
     spyOn(logger, 'debug')
-    serviceContainer = new ServiceContainer(serviceFactory)
+    serviceContainer = serviceFactory.getPerformanceServiceContainer()
 
     zoneServiceMock = new ZoneServiceMock()
     serviceContainer.services.zoneService = zoneServiceMock
@@ -31,7 +30,7 @@ describe('ngOpbeat', function () {
     serviceContainer.services.transactionService = transactionService
 
     exceptionHandler = serviceFactory.getExceptionHandler()
-    serviceContainer.services.exceptionHandler = exceptionHandler
+    // serviceContainer.services.exceptionHandler = exceptionHandler
 
     spyOn(transactionService, 'startTrace')
 

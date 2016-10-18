@@ -2,7 +2,6 @@ var ZoneServiceMock = require('../transaction/zone_service_mock.js')
 var angularInitializer = require('../../src/angularInitializer')
 
 var opbeatCore = require('opbeat-js-core')
-var ServiceContainer = opbeatCore.ServiceContainer
 var ServiceFactory = opbeatCore.ServiceFactory
 
 var Config = opbeatCore.ConfigService
@@ -11,20 +10,21 @@ describe('angularInitializer', function () {
   var originalAngular
   var zoneService
   var serviceContainer
+  var serviceFactory
 
   beforeEach(function () {
     originalAngular = window.angular
-    var serviceFactory = new ServiceFactory()
+    serviceFactory = new ServiceFactory()
     var config = Object.create(Config)
     config.init()
     serviceFactory.services['ConfigService'] = config
-    serviceContainer = new ServiceContainer(serviceFactory)
+    serviceContainer = serviceFactory.getPerformanceServiceContainer()
     zoneService = new ZoneServiceMock()
     serviceContainer.services.zoneService = zoneService
   })
 
   it('should inject with ngMock', function () {
-    angularInitializer(serviceContainer)
+    angularInitializer(serviceFactory)
     window.angular.module('test', ['ngOpbeat'])
     window.angular.injector(['ng', 'test'])
 
@@ -36,7 +36,7 @@ describe('angularInitializer', function () {
   it('should register after angular is loaded', function () {
     window.angular.module('test', ['ngOpbeat'])
     window.angular = undefined
-    angularInitializer(serviceContainer)
+    angularInitializer(serviceFactory)
 
     var bootstrapIsCalled = false
     var fakeAngular = window.angular = {
