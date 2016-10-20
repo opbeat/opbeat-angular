@@ -1,14 +1,14 @@
 {
-  "name": "opbeat-js",
+  "name": "opbeat-angular",
   "version": "3.1.4",
-  "description": "Official JS client for logging exceptions and stacktraces to Opbeat",
+  "description": "Official Opbeat integration for AngularJS",
   "license": "MIT",
-  "homepage": "https://github.com/opbeat/opbeat-js",
+  "homepage": "https://github.com/opbeat/opbeat-angular",
   "contributors": [
     "Hamidreza Jahtalab",
     "Kenneth Auchenberg"
   ],
-  "main": "src/opbeat-js/opbeat.js",
+  "main": "src/opbeat-angular.js",
   "scripts": {
     "build": "gulp build:release",
     "karma": "node node_modules/karma/bin/karma start --coverage",
@@ -21,19 +21,14 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/opbeat/opbeat-js.git"
+    "url": "https://github.com/opbeat/opbeat-angular.git"
   },
   "browser": {
     "zone.js": "./node_modules/zone.js/dist/zone.js"
   },
   "dependencies": {
-    "error-stack-parser": "^1.3.5",
-    "event-stream": "^3.3.1",
     "loglevel": "^1.4.0",
-    "opbeat-js-core": "git://github.com/jahtalab/opbeat-js.git#opbeat-js-core",
-    "sauce-connect-launcher": "^0.14.0",
-    "simple-lru-cache": "0.0.2",
-    "stack-generator": "^1.0.7",
+    "opbeat-js-core": "git://github.com/opbeat/opbeat-js-core",
     "zone.js": "git://github.com/jahtalab/zone.js.git#dist"
   },
   "devDependencies": {
@@ -42,6 +37,7 @@
     "angular-resource": "^1.5.0",
     "browserify": "^13.0.1",
     "browserify-istanbul": "^2.0.0",
+    "event-stream": "^3.3.1",
     "gulp": "^3.9.1",
     "gulp-awspublish": "^3.0.1",
     "gulp-concat": "^2.4.1",
@@ -75,6 +71,7 @@
     "phantomjs2": "^2.2.0",
     "proxyquireify": "^3.0.1",
     "run-sequence": "^1.1.5",
+    "sauce-connect-launcher": "^0.14.0",
     "selenium-standalone": "^4.8.0",
     "standard": "^5.4.1",
     "vinyl-buffer": "^1.0.0",
