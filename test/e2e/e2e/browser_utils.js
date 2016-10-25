@@ -132,7 +132,7 @@ function setup () {
       css: '/node_modules/systemjs-plugin-css/css.js'
     },
     paths: {
-      'opbeat-angular': '../src/angular/opbeat-angular.js',
+      'opbeat-angular': '../src/opbeat-angular.js',
       'zone.js': '/node_modules/zone.js/dist/zone.js',
       'semantic-ui-dropdown': '/node_modules/semantic-ui-dropdown/dropdown.js',
       'semantic-ui-transition': '/node_modules/semantic-ui-transition/transition.js',
