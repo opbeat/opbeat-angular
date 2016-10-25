@@ -7,15 +7,18 @@ var ServiceFactory = opbeatCore.ServiceFactory
 var Config = opbeatCore.ConfigService
 
 describe('angularInitializer', function () {
+  var originalOnError
   var originalAngular
   var zoneService
   var serviceContainer
   var serviceFactory
+  var config
 
   beforeEach(function () {
+    originalOnError = window.onerror
     originalAngular = window.angular
     serviceFactory = new ServiceFactory()
-    var config = Object.create(Config)
+    config = Object.create(Config)
     config.init()
     serviceFactory.services['ConfigService'] = config
     serviceContainer = serviceFactory.getPerformanceServiceContainer()
@@ -53,11 +56,20 @@ describe('angularInitializer', function () {
     expect(bootstrapIsCalled).toBeTruthy()
   })
 
+  it('should install window.onerror', function () {
+    window.onerror = undefined
+    expect(window.onerror).toEqual(null)
+    angularInitializer(serviceFactory)
+    config.setConfig({appId: 'test', orgId: 'test'})
+    expect(typeof window.onerror).toBe('function')
+  })
+
   afterEach(function () {
     // Clean up side effects
     delete window.angular
     window.angular = originalAngular
     window.name = ''
     window.angular.module('ngOpbeat', ['non-existing-module'])
+    window.onerror = originalOnError
   })
 })
