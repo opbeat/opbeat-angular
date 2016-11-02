@@ -84,11 +84,12 @@ gulp.task('build:release', function () {
   var prodPath = './dist/'
 
   var integrations = require('./release/integrations')
+  var version = require('./package.json').version
 
   var tasks = Object.keys(integrations).map(function (key) {
     var integration = integrations[key]
     var integrationName = key
-    var mainStream = createBuildStream(integration.entry, integration.version)
+    var mainStream = createBuildStream(integration.entry, version)
       .pipe(gulp.dest(versionPath))
       .pipe(gulp.dest(prodPath))
       .pipe(gulp.dest(prodPath + integrationName))
@@ -106,7 +107,7 @@ gulp.task('build:release', function () {
     var packagejson = gulp.src(['./release/templates/*.json'])
       .pipe(jeditor({
         'name': integrationName,
-        'version': integration.version,
+        'version': version,
         'main': filename,
         'description': integration.description
       }))
@@ -120,15 +121,15 @@ gulp.task('build:release', function () {
 
 gulp.task('build', function () {
   var integrations = require('./release/integrations')
+  var version = require('./package.json').version
 
   integrations['opbeat-angular.e2e'] = {
-    version: integrations['opbeat-angular'].version,
     entry: './test/e2e/angular/opbeat-angular.e2e.js'
   }
 
   var tasks = Object.keys(integrations).map(function (key) {
     var entry = integrations[key].entry
-    var version = integrations[key].version
+    // var version = integrations[key].version
     return createBuildStream(entry, version)
       .pipe(gulp.dest('./dist/dev/'))
       .pipe(rename({
