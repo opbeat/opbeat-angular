@@ -20,8 +20,14 @@ function init (opbeatConfig) {
         controller: function ($scope) {
           $scope.test = 'passed'
         },
-        template: '<div ng-bind="test"></div>'
-      })
+        template: '<div ng-bind="test"></div><a ui-sref="ui_router_app_exponentialstate.alternative">alternative</a>'
+      }).state('ui_router_app_exponentialstate.alternative', {
+      url: 'alternative',
+      controller: function ($scope) {
+        $scope.test = 'alternative'
+      },
+      template: '<div ng-bind="test"></div><a ui-sref="ui_router_app_exponentialstate.substate">substate</a>'
+    })
   })
 
   app.config(function ($opbeatProvider) {

@@ -8,10 +8,11 @@
         useNgApp: false,
         uiRouter: true,
         opbeatConfig: {
-          debug: true,
+          logLevel: 'trace',
           orgId: '7f9fa667d0a349dd8377bc740bcfc33e',
           appId: '0a8757798e',
           performance: {
+            sendDebugInfo: true,
             enable: true,
             enableStackFrames: true,
             captureInteractions: true
@@ -21,7 +22,7 @@
     },
     'too_many_traces_app': {
       path: './too_many_traces_app/too_many_traces_app.js',
-      deps: ['opbeat-angular', 'angular-ui-router'],
+      deps: ['opbeat-angular', 'angular', 'angular-ui-router'],
       options: {
         appName: 'too_many_traces_app',
         useNgApp: false,

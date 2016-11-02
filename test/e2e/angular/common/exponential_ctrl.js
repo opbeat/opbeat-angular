@@ -45,6 +45,11 @@ function exponentialCtrl ($scope, $http) {
   }, function () {
     throw new Error('Confirmation failed.')
   })
+
+  $http.get('common/non-existing').then(function (response) {
+  }, function () {
+    console.log(arguments)
+  })
 }
 
 module.exports = exponentialCtrl
