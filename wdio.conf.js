@@ -17,7 +17,7 @@ exports.config = {
   // 'path/to/excluded/files'
   ],
   maxInstances: 1,
-
+  sync: false,
   //
   // ============
   // Capabilities
