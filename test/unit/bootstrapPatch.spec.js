@@ -1,5 +1,6 @@
 var patchAngularBootstrap = require('../../src/patches/bootstrapPatch')
-var ZoneServiceMock = require('../transaction/zone_service_mock.js')
+var opbeatCore = require('opbeat-js-core')
+var ZoneServiceMock = opbeatCore.test.ZoneServiceMock
 
 describe('bootstrapPatch', function () {
   var originalAngular

@@ -5,7 +5,7 @@ describe('controllerPatch', function () {
   var Config = opbeatCore.ConfigService
   var TransactionService = opbeatCore.TransactionService
 
-  var ZoneServiceMock = require('../transaction/zone_service_mock.js')
+  var ZoneServiceMock = opbeatCore.test.ZoneServiceMock
   var ServiceFactory = opbeatCore.ServiceFactory
 
   var config

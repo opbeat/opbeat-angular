@@ -3,7 +3,7 @@ var opbeatCore = require('opbeat-js-core')
 
 var TransactionService = opbeatCore.TransactionService
 var logger = require('loglevel')
-var ZoneServiceMock = require('../transaction/zone_service_mock')
+var ZoneServiceMock = opbeatCore.test.ZoneServiceMock
 var Config = opbeatCore.ConfigService
 
 describe('interactionsPatch', function () {
