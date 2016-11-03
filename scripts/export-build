@@ -13,7 +13,7 @@ BASE_WORKING_DIR=`pwd`
 # DISTRIBUTION_DIR="./dist/"
 TARGET_REPO_DIR="$2"
 INTEGRATION_KEY="$1"
-DISTRIBUTION_VERSION=`node -e "console.log(require('./release/integrations.json')['$INTEGRATION_KEY'].version);"`
+DISTRIBUTION_VERSION=`node -e "console.log(require('./package.json').version);"`
 TAG_NAME="v$DISTRIBUTION_VERSION"
 
 echo "Building files for copy."
