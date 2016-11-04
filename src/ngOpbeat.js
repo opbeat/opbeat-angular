@@ -84,6 +84,10 @@ function registerOpbeatModule (transactionService, logger, configService, except
       logger.debug('Route change started')
       var transactionName
       if (current.$$route) { // ngRoute
+        // ignoring redirects since we will get another event
+        if (typeof current.$$route.redirectTo !== 'undefined') {
+          return
+        }
         transactionName = current.$$route.originalPath
       } else { // UI Router
         transactionName = current.name
