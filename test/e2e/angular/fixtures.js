@@ -12,7 +12,7 @@
           orgId: '7f9fa667d0a349dd8377bc740bcfc33e',
           appId: '0a8757798e',
           performance: {
-            sendDebugInfo: true,
+            sendVerboseDebugInfo: true,
             enable: true,
             enableStackFrames: true,
             captureInteractions: true
@@ -93,6 +93,6 @@
     }
   }
 
-  var fx = fixtures.ui_router_app
+  var fx = fixtures.simple_app
   window.e2eUtils.runFixture(fx.path, fx.deps, fx.options)
 })()

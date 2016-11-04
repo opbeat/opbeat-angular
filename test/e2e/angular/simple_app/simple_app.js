@@ -27,6 +27,7 @@ function init () {
       orgId: '7f9fa667d0a349dd8377bc740bcfc33e',
       appId: '0a8757798e',
       performance: {
+        sendVerboseDebugInfo: true,
         enable: true,
         enableStackFrames: true
       }
