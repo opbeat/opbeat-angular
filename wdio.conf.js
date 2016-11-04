@@ -18,6 +18,7 @@ exports.config = {
   ],
   maxInstances: 1,
   sync: false,
+  port: 80,
   //
   // ============
   // Capabilities

@@ -11,4 +11,6 @@ config.specs = [
   './test/e2e/**/*.failsafe.js'
 ]
 
+config.port = 4444
+
 exports.config = config
