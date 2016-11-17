@@ -39,9 +39,13 @@ function patchDeferredBootstrap (zoneService, beforeBootstrap) {
     var originalResumeBootstrap = window.angular.resumeBootstrap
     Object.defineProperty(window.angular, 'resumeBootstrap', {
       get: function () {
-        return function (modules) {
-          beforeBootstrap(modules)
-          return zoneService.runInOpbeatZone(originalResumeBootstrap, window.angular, arguments)
+        if (typeof originalResumeBootstrap === 'function') {
+          return function (modules) {
+            beforeBootstrap(modules)
+            return zoneService.runInOpbeatZone(originalResumeBootstrap, window.angular, arguments)
+          }
+        } else {
+          return originalResumeBootstrap
         }
       },
       set: function (resumeBootstrap) {
