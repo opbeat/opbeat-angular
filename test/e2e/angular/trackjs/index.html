@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+
+<head>
+  <title>opbeat-angular</title>
+</head>
+
+<body ng-app="myApp">
+  <!-- BEGIN TRACKJS -->
+  <script type="text/javascript">
+    window._trackJs = {  // Just ensure the global variable is initialized before the tracker script loads.
+      token: 'YOUR_TOKEN_HERE' 
+    };
+  </script>
+  <!-- END TRACKJS -->
+  <script src="/node_modules/angular/angular.min.js"></script>
+  <script src="../../dist/opbeat-angular.js" data-org-id="7f9fa667d0a349dd8377bc740bcfc33e" data-app-id="6664ca4dfc" data-debug="true"></script>
+  <script src="https://cdn.trackjs.com/releases/current/tracker.js"></script>
+
+  <script>
+    angular.module('myApp', ['ngOpbeat'])
+      .run(function($opbeat){
+        var isValid = $opbeat.getConfig().isValid()
+        $opbeat.getConfig().setConfig({logLevel:'trace'})
+        console.log(isValid)
+        $opbeat.captureException(new Error('Just an error'))
+
+        function reqListener () {
+          console.log(this.responseText);
+        }
+
+        var oReq = new XMLHttpRequest();
+        oReq.addEventListener("load", reqListener);
+        oReq.open("GET", "http://www.example.org/example.txt");
+        oReq.send();
+
+      })
+  </script>
+</body>
+
+</html>

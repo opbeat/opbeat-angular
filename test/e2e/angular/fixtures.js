@@ -90,9 +90,39 @@
         useNgApp: undefined,
         uiRouter: false
       }
+    },
+    'trackjsApp': {
+      path: './ui_router_app/ui_router_app.js',
+      // opbeat-angular should execute first
+      deps: ['opbeat-angular', 'trackjs', 'angular', 'angular-ui-router', 'angular-resource'],
+      options: {
+        appName: 'ui_router_app',
+        useNgApp: false,
+        uiRouter: true,
+        opbeatConfig: {
+          logLevel: 'trace',
+          orgId: '7f9fa667d0a349dd8377bc740bcfc33e',
+          appId: '0a8757798e',
+          performance: {
+            sendVerboseDebugInfo: true,
+            enable: true,
+            enableStackFrames: true,
+            captureInteractions: true
+          },
+          context: {
+            extra: {
+              lib: 'trackjs'
+            }
+          }
+        }
+      }
     }
   }
 
-  var fx = fixtures.simple_app
+  window._trackJs = {
+    token: 'YOUR_TOKEN_HERE'
+  }
+
+  var fx = fixtures.ui_router_app
   window.e2eUtils.runFixture(fx.path, fx.deps, fx.options)
 })()
