@@ -1,4 +1,4 @@
-# Opbeat for frontend JS
+# Opbeat for AngularJS
 
 [![Build status](https://travis-ci.org/opbeat/opbeat-angular.svg?branch=master)](https://travis-ci.org/opbeat/opbeat-angular)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat)](https://github.com/feross/standard)
@@ -7,15 +7,15 @@
 
 Official [Opbeat](https://opbeat.com) integration for AngularJS. 
 
-It enables error logging and performance monitoring for AngularJS applications.
+The module enables error logging and performance monitoring for AngularJS applications.
 
 If you are looking for a module for your Node.js applications, please see [Opbeat for Node.js](https://github.com/opbeat/opbeat-node) on GitHub.
 
 ## Documentation
 
-- [Documentation overview](https://opbeat.com/docs/topics/javascript/)
 - [Get started with Opbeat for AngularJS](https://opbeat.com/docs/articles/get-started-with-angularjs/)
 - [Module API](https://opbeat.com/docs/articles/opbeat-for-javascript-api/)
+- [Other JavaScript articles](https://opbeat.com/docs/topics/javascript/)
 
 
 ## Development
