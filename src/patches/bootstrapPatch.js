@@ -12,7 +12,7 @@ function patchMainBootstrap (zoneService, beforeBootstrap, weDeferred) {
     if (weDeferred && deferRegex.test(window.name)) {
       window.name = window.name.substring(DEFER_LABEL.length)
     }
-    return zoneService.runInOpbeatZone(originalBootstrapFn, window.angular, arguments)
+    return zoneService.runInOpbeatZone(originalBootstrapFn, window.angular, arguments, 'angular:bootstrap')
   }
 
   Object.defineProperty(window.angular, 'bootstrap', {
@@ -42,7 +42,7 @@ function patchDeferredBootstrap (zoneService, beforeBootstrap) {
         if (typeof originalResumeBootstrap === 'function') {
           return function (modules) {
             beforeBootstrap(modules)
-            return zoneService.runInOpbeatZone(originalResumeBootstrap, window.angular, arguments)
+            return zoneService.runInOpbeatZone(originalResumeBootstrap, window.angular, arguments, 'angular:bootstrap')
           }
         } else {
           return originalResumeBootstrap
@@ -60,7 +60,7 @@ function patchDeferredBootstrap (zoneService, beforeBootstrap) {
     window.angular.resumeDeferredBootstrap = function () {
       var modules = []
       beforeBootstrap(modules)
-      return zoneService.runInOpbeatZone(window.angular.resumeBootstrap, window.angular, [modules])
+      return zoneService.runInOpbeatZone(window.angular.resumeBootstrap, window.angular, [modules], 'angular:bootstrap')
     }
     /* angular should remove DEFER_LABEL from window.name, but if angular is never loaded, we want
      to remove it ourselves */
