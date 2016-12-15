@@ -25,8 +25,8 @@ require('gulp-release-tasks')(gulp)
 var jeditor = require('gulp-json-editor')
 
 var webdriverConfig = {
-  user: process.env.SAUCE_USERNAME || 'opbeat',
-  key: process.env.SAUCE_ACCESS_KEY || 'de42e589-1450-41a2-8a44-90aa00c15168',
+  user: process.env.SAUCE_USERNAME || 'opbeat-angular',
+  key: process.env.SAUCE_ACCESS_KEY || 'bfc1a656-542b-4893-bdef-a7ac20256fa9',
   host: process.env.SAUCE_HOST || 'ondemand.saucelabs.com',
   port: process.env.SAUCE_PORT || 80,
   baseUrl: process.env.SAUCE_BASEURL || 'http://localhost:8000'
