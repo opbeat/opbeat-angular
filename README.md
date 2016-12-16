@@ -5,6 +5,8 @@
 <a href="https://opbeat.com" title="Opbeat"><img src="http://opbeat-brand-assets.s3-website-us-east-1.amazonaws.com/svg/logo/logo.svg" align="right" height="25px"></a>
 
 
+[![Sauce Test Status](https://saucelabs.com/browser-matrix/opbeat-angular.svg)](https://saucelabs.com/u/opbeat-angular)
+
 Official [Opbeat](https://opbeat.com) integration for AngularJS. 
 
 The module enables error logging and performance monitoring for AngularJS applications.
