@@ -1,6 +1,6 @@
 {
   "name": "opbeat-angular",
-  "version": "3.6.1",
+  "version": "3.7.0",
   "description": "Official Opbeat integration for AngularJS",
   "license": "MIT",
   "homepage": "https://github.com/opbeat/opbeat-angular",
