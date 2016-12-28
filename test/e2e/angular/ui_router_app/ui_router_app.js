@@ -36,6 +36,7 @@ function init (opbeatConfig) {
 
   app.run(function ($opbeat) {
     $opbeat.setUserContext({ test: 'test' })
+    $opbeat.captureException(new Error('Ui router error'))
   })
 
   app.controller('expCtrl', ctrl)
