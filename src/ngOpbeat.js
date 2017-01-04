@@ -96,7 +96,7 @@ function registerOpbeatModule (transactionService, logger, configService, except
         transactionName = '/'
       }
 
-      transactionService.startTransaction(transactionName, 'transaction')
+      transactionService.startTransaction(transactionName, 'route-change')
     }
 
     // ng-router
