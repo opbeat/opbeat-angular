@@ -287,7 +287,8 @@ gulp.task('test:e2e:launchsauceconnect', function (done) {
   var config = {
     username: webdriverConfig.user,
     accessKey: webdriverConfig.key,
-    logger: console.log
+    logger: console.log,
+    noSslBumpDomains: 'all'
   }
 
   var tryConnect = function (maxAttempts, currAttempts, done) {
