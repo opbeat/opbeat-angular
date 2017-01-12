@@ -20,14 +20,23 @@ function initialize (serviceFactory) {
     }
   }
 
+  function noop () {}
+  services['angularInitializer'] = {
+    afterBootstrap: noop
+  }
+
+  function afterBootstrap () {
+    services['angularInitializer'].afterBootstrap()
+  }
+
   services.exceptionHandler = serviceFactory.getExceptionHandler()
   services.exceptionHandler.install()
   alreadyRegistered = registerOpbeatModule(services)
-  patchAngularBootstrap(services.zoneService, beforeBootstrap)
+  patchAngularBootstrap(services.zoneService, beforeBootstrap, afterBootstrap)
 }
 
 function registerOpbeatModule (services) {
-  return ngOpbeat(services.transactionService, services.logger, services.configService, services.exceptionHandler)
+  return ngOpbeat(services)
 }
 
 module.exports = initialize

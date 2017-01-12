@@ -1,18 +1,17 @@
 var DEFER_LABEL = 'NG_DEFER_BOOTSTRAP!'
 var deferRegex = new RegExp('^' + DEFER_LABEL + '.*')
 
-function patchMainBootstrap (zoneService, beforeBootstrap, weDeferred) {
+function patchMainBootstrap (opbeatBootstrap, weDeferred) {
   if (typeof window.angular === 'undefined') {
     return
   }
   var originalBootstrapFn = window.angular.bootstrap
 
   function bootstrap (element, modules) {
-    beforeBootstrap(modules)
     if (weDeferred && deferRegex.test(window.name)) {
       window.name = window.name.substring(DEFER_LABEL.length)
     }
-    return zoneService.runInOpbeatZone(originalBootstrapFn, window.angular, arguments, 'angular:bootstrap')
+    return opbeatBootstrap(originalBootstrapFn, window.angular, arguments)
   }
 
   Object.defineProperty(window.angular, 'bootstrap', {
@@ -29,7 +28,7 @@ function patchMainBootstrap (zoneService, beforeBootstrap, weDeferred) {
   })
 }
 
-function patchDeferredBootstrap (zoneService, beforeBootstrap) {
+function patchDeferredBootstrap (opbeatBootstrap) {
   if (typeof window.angular === 'undefined') {
     return
   }
@@ -41,8 +40,7 @@ function patchDeferredBootstrap (zoneService, beforeBootstrap) {
       get: function () {
         if (typeof originalResumeBootstrap === 'function') {
           return function (modules) {
-            beforeBootstrap(modules)
-            return zoneService.runInOpbeatZone(originalResumeBootstrap, window.angular, arguments, 'angular:bootstrap')
+            return opbeatBootstrap(originalResumeBootstrap, window.angular, arguments)
           }
         } else {
           return originalResumeBootstrap
@@ -59,8 +57,7 @@ function patchDeferredBootstrap (zoneService, beforeBootstrap) {
 
     window.angular.resumeDeferredBootstrap = function () {
       var modules = []
-      beforeBootstrap(modules)
-      return zoneService.runInOpbeatZone(window.angular.resumeBootstrap, window.angular, [modules], 'angular:bootstrap')
+      return opbeatBootstrap(window.angular.resumeBootstrap, window.angular, [modules])
     }
     /* angular should remove DEFER_LABEL from window.name, but if angular is never loaded, we want
      to remove it ourselves */
@@ -74,7 +71,7 @@ function patchDeferredBootstrap (zoneService, beforeBootstrap) {
   }
 }
 
-function createAngular (zoneService, beforeBootstrap) {
+function createAngular (opbeatBootstrap) {
   // with this method we can initialize opbeat-angular before or after angular is loaded
   var alreadyPatched = false
   var originalAngular = window.angular
@@ -88,7 +85,7 @@ function createAngular (zoneService, beforeBootstrap) {
       originalAngular = value
       if (!alreadyPatched && typeof originalAngular === 'object') {
         alreadyPatched = true
-        patchAll(zoneService, beforeBootstrap)
+        patchAll(opbeatBootstrap)
       }
     },
     enumerable: true,
@@ -98,20 +95,27 @@ function createAngular (zoneService, beforeBootstrap) {
 
 function noop () {}
 
-function patchAll (zoneService, beforeBootstrap) {
-  var weDeferred = patchDeferredBootstrap(zoneService, beforeBootstrap)
-  patchMainBootstrap(zoneService, beforeBootstrap, weDeferred)
+function patchAll (opbeatBootstrap) {
+  var weDeferred = patchDeferredBootstrap(opbeatBootstrap)
+  patchMainBootstrap(opbeatBootstrap, weDeferred)
 }
 
-function patchAngularBootstrap (zoneService, beforeBootstrap) {
-  if (typeof beforeBootstrap !== 'function') {
-    beforeBootstrap = noop
+function patchAngularBootstrap (zoneService, beforeBootstrap, afterBootstrap) {
+  function opbeatBootstrap (fn, applyThis, applyArgs) {
+    if (typeof beforeBootstrap === 'function') {
+      beforeBootstrap()
+    }
+    var result = zoneService.runInOpbeatZone(fn, applyThis, applyArgs, 'angular:bootstrap')
+    if (typeof afterBootstrap === 'function') {
+      afterBootstrap()
+    }
+    return result
   }
 
   if (window.angular) {
-    patchAll(zoneService, beforeBootstrap)
+    patchAll(opbeatBootstrap)
   } else {
-    createAngular(zoneService, beforeBootstrap)
+    createAngular(opbeatBootstrap)
   }
 }
 

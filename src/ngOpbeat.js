@@ -62,7 +62,20 @@ function patchAll ($provide, transactionService) {
 
 function noop () {}
 
-function registerOpbeatModule (transactionService, logger, configService, exceptionHandler) {
+function registerOpbeatModule (services) {
+  var transactionService = services.transactionService
+  var logger = services.logger
+  var configService = services.configService
+  var exceptionHandler = services.exceptionHandler
+  var angularInitializer = services.angularInitializer
+
+  var routeChanged = false
+  angularInitializer.afterBootstrap = function afterBootstrap () {
+    if (!routeChanged) {
+      transactionService.sendPageLoadMetrics(window.location.pathname)
+    }
+  }
+
   function moduleRun ($rootScope) {
     configService.set('isInstalled', true)
     configService.set('opbeatAgentName', 'opbeat-angular')
@@ -77,6 +90,7 @@ function registerOpbeatModule (transactionService, logger, configService, except
 
     // onRouteChangeStart
     function onRouteChangeStart (event, current) {
+      routeChanged = true
       if (!configService.get('performance.enable')) {
         logger.debug('Performance monitoring is disable')
         return
