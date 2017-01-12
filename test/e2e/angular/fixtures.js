@@ -117,6 +117,11 @@
           }
         }
       }
+    },
+    'noRouter': {
+      path: './no_router/no_router.js',
+      deps: ['angular', 'opbeat-angular'],
+      options: {}
     }
   }
 
@@ -124,6 +129,6 @@
     token: 'YOUR_TOKEN_HERE'
   }
 
-  var fx = fixtures.ui_router_app
+  var fx = fixtures.noRouter
   window.e2eUtils.runFixture(fx.path, fx.deps, fx.options)
 })()
