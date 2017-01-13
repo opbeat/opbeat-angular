@@ -129,6 +129,6 @@
     token: 'YOUR_TOKEN_HERE'
   }
 
-  var fx = fixtures.noRouter
+  var fx = fixtures.ui_router_app
   window.e2eUtils.runFixture(fx.path, fx.deps, fx.options)
 })()
