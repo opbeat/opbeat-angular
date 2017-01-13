@@ -93,8 +93,6 @@ function createAngular (opbeatBootstrap) {
   })
 }
 
-function noop () {}
-
 function patchAll (opbeatBootstrap) {
   var weDeferred = patchDeferredBootstrap(opbeatBootstrap)
   patchMainBootstrap(opbeatBootstrap, weDeferred)
