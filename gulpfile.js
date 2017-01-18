@@ -70,9 +70,15 @@ function writeToDestinations (stream, dests) {
   return es.merge.apply(null, tasks)
 }
 
-gulp.task('build:release', function () {
+function getMajorVersion () {
   var version = require('./package').version
   var majorVersion = version.match(/^(\d).(\d)+.(\d)/)[1]
+  return majorVersion
+}
+
+gulp.task('build:release', function () {
+  var version = require('./package').version
+  var majorVersion = getMajorVersion()
 
   var versionPath = './dist/cdn/' + majorVersion
   var prodPath = './dist/'
@@ -168,8 +174,7 @@ gulp.task('deploy', ['build:release'], function () {
     'Cache-Control': 'max-age=1800, public'
   }
 
-  var version = require('./package').version
-  var majorVersion = version.match(/^(\d).(\d).(\d)/)[1]
+  var majorVersion = getMajorVersion()
 
   var versionPath = './dist/cdn/**'
 
