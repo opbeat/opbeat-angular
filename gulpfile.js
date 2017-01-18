@@ -70,15 +70,9 @@ function writeToDestinations (stream, dests) {
   return es.merge.apply(null, tasks)
 }
 
-function getMajorVersion () {
-  var version = require('./package').version
-  var majorVersion = version.match(/^(\d).(\d).(\d)/)[1]
-  return majorVersion
-}
-
 gulp.task('build:release', function () {
   var version = require('./package').version
-  var majorVersion = version.match(/^(\d).(\d).(\d)/)[1]
+  var majorVersion = version.match(/^(\d).(\d)+.(\d)/)[1]
 
   var versionPath = './dist/cdn/' + majorVersion
   var prodPath = './dist/'
