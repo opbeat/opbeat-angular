@@ -14,15 +14,17 @@ function initialize (serviceFactory) {
   var alreadyRegistered = false
   patchCommon(serviceContainer)
 
+  function noop () {}
+  services['angularInitializer'] = {
+    afterBootstrap: noop,
+    beforeBootstrap: noop
+  }
+
   function beforeBootstrap (modules) {
+    services['angularInitializer'].beforeBootstrap()
     if (!alreadyRegistered) {
       alreadyRegistered = registerOpbeatModule(services)
     }
-  }
-
-  function noop () {}
-  services['angularInitializer'] = {
-    afterBootstrap: noop
   }
 
   function afterBootstrap () {

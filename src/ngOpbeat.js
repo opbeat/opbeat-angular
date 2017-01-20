@@ -70,7 +70,11 @@ function registerOpbeatModule (services) {
   var angularInitializer = services.angularInitializer
 
   var routeChanged = false
+  angularInitializer.beforeBootstrap = function beforeBootstrap () {
+    transactionService.metrics['appBeforeBootstrap'] = performance.now()
+  }
   angularInitializer.afterBootstrap = function afterBootstrap () {
+    transactionService.metrics['appAfterBootstrap'] = performance.now()
     if (!routeChanged) {
       transactionService.sendPageLoadMetrics(window.location.pathname)
     }
