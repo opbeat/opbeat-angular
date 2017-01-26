@@ -16,7 +16,7 @@ If you are looking for a module for your Node.js applications, please see [Opbea
 ## Documentation
 
 - [Get started with Opbeat for AngularJS](https://opbeat.com/docs/articles/get-started-with-angularjs/)
-- [Module API](https://opbeat.com/docs/articles/opbeat-for-javascript-api/)
+- [Agent API](https://opbeat.com/docs/articles/javascript-agent-api/)
 - [Other JavaScript articles](https://opbeat.com/docs/topics/javascript/)
 
 
