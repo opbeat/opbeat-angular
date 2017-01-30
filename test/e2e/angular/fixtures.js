@@ -121,7 +121,9 @@
     'noRouter': {
       path: './no_router/no_router.js',
       deps: ['angular', 'opbeat-angular'],
-      options: {}
+      options: {
+        initialTemplate: `<div ng-controller="expCtrl"><div ng-include="'common/exponential_ctrl.html'"></div></div>`
+      }
     }
   }
 
@@ -129,6 +131,6 @@
     token: 'YOUR_TOKEN_HERE'
   }
 
-  var fx = fixtures.ui_router_app
+  var fx = fixtures.noRouter
   window.e2eUtils.runFixture(fx.path, fx.deps, fx.options)
 })()

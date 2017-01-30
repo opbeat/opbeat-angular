@@ -71,6 +71,11 @@ function setup () {
         div.innerHTML = '<div ng-view></div>'
       }
       document.body.appendChild(div)
+      if (options.initialTemplate) {
+        var initialTemplate = document.createElement('div')
+        initialTemplate.innerHTML = options.initialTemplate
+        document.body.appendChild(initialTemplate)
+      }
       System.import(path).then(function (module) {
         utils.loadDependencies(deps, function (modules) {
           var useNgApp = options.useNgApp
