@@ -46,6 +46,12 @@ module.exports = function (config) {
       browserName: 'iphone',
       platform: 'OS X 10.10',
       version: '9.1'
+    },
+    'SL_IOS8': {
+      base: 'SauceLabs',
+      browserName: 'iphone',
+      platform: 'OS X 10.10',
+      version: '8.4'
     }
   }
   var cfg = {

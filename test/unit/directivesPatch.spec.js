@@ -6,7 +6,9 @@ var logger = require('loglevel')
 var ZoneServiceMock = opbeatCore.test.ZoneServiceMock
 
 var Config = opbeatCore.ConfigService
-
+if(!Config.isPlatformSupported()){
+  return
+}
 describe('angular.directivesPatch', function () {
   var angular, app, config
   beforeEach(function () {

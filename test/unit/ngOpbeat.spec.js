@@ -49,6 +49,9 @@ describe('ngOpbeat', function () {
   })
 
   it('should not start transactions if performance is disable', function () {
+    if (!config.isPlatformSupported()) {
+      return
+    }
     ngOpbeat(serviceContainer.services)
     config.setConfig({appId: 'test', orgId: 'test', isInstalled: true, performance: {enable: false}})
     expect(config.isValid()).toBe(true)

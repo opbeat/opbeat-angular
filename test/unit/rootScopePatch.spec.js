@@ -5,7 +5,9 @@ var logger = require('loglevel')
 var ZoneServiceMock = opbeatCore.test.ZoneServiceMock
 
 var Config = opbeatCore.ConfigService
-
+if(!Config.isPlatformSupported()){
+  return
+}
 describe('angular.rootScopePatch', function () {
   it('should call startTrace for $scope.$digest', function () {
     var angular = window.angular

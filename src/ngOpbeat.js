@@ -70,16 +70,6 @@ function registerOpbeatModule (services) {
   var angularInitializer = services.angularInitializer
 
   var routeChanged = false
-  angularInitializer.beforeBootstrap = function beforeBootstrap () {
-    transactionService.metrics['appBeforeBootstrap'] = performance.now()
-  }
-  angularInitializer.afterBootstrap = function afterBootstrap () {
-    transactionService.metrics['appAfterBootstrap'] = performance.now()
-    if (!routeChanged) {
-      transactionService.sendPageLoadMetrics(window.location.pathname)
-    }
-  }
-
   function moduleRun ($rootScope) {
     configService.set('isInstalled', true)
     configService.set('opbeatAgentName', 'opbeat-angular')
@@ -148,6 +138,16 @@ function registerOpbeatModule (services) {
         .provider('$opbeat', new NgOpbeatProvider(logger, configService, exceptionHandler))
         .config(['$provide', moduleConfig])
         .run(['$rootScope', moduleRun])
+
+      angularInitializer.beforeBootstrap = function beforeBootstrap () {
+        transactionService.metrics['appBeforeBootstrap'] = performance.now()
+      }
+      angularInitializer.afterBootstrap = function afterBootstrap () {
+        transactionService.metrics['appAfterBootstrap'] = performance.now()
+        if (!routeChanged) {
+          transactionService.sendPageLoadMetrics(window.location.pathname)
+        }
+      }
     }
     window.angular.module('opbeat-angular', ['ngOpbeat'])
     return true
