@@ -124,4 +124,10 @@ describe('ngOpbeat', function () {
       $rootScope.$broadcast('$routeChangeStart')
     })
   })
+
+  it('should publish setInitialPageLoadName', function () {
+    ngOpbeat(serviceContainer.services)
+    expect(typeof window.opbeat.setInitialPageLoadName).toBe('function')
+    window.opbeat.setInitialPageLoadName('hamid initial page load')
+  })
 })

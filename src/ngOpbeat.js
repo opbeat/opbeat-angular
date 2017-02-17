@@ -5,6 +5,8 @@ var patchDirectives = require('./patches/directivesPatch')
 var patchExceptionHandler = require('./patches/exceptionHandlerPatch')
 var patchInteractions = require('./patches/interactionsPatch')
 
+var utils = require('opbeat-js-core').utils
+
 function NgOpbeatProvider (logger, configService, exceptionHandler) {
   this.config = function config (properties) {
     if (properties) {
@@ -58,6 +60,11 @@ function patchAll ($provide, transactionService) {
   patchRootScope($provide, transactionService)
   patchDirectives($provide, transactionService)
   patchInteractions($provide, transactionService)
+}
+
+function publishExternalApi (spec) {
+  var opbeat = window.opbeat || (window.opbeat = {})
+  utils.extend(opbeat, spec)
 }
 
 function noop () {}
@@ -127,6 +134,12 @@ function registerOpbeatModule (services) {
     }
   }
 
+  publishExternalApi({
+    'setInitialPageLoadName': function setInitialPageLoadName (name) {
+      transactionService.initialPageLoadName = name
+    }
+  })
+
   if (window.angular && typeof window.angular.module === 'function') {
     if (!configService.isPlatformSupported()) {
       window.angular.module('ngOpbeat', [])
@@ -145,7 +158,7 @@ function registerOpbeatModule (services) {
       angularInitializer.afterBootstrap = function afterBootstrap () {
         transactionService.metrics['appAfterBootstrap'] = performance.now()
         if (!routeChanged) {
-          transactionService.sendPageLoadMetrics(window.location.pathname)
+          transactionService.sendPageLoadMetrics()
         }
       }
     }
