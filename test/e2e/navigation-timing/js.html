@@ -1,0 +1,74 @@
+<!doctype html>
+<html>
+
+<head>
+  <title>domInteractive JS - too conservative</title>
+
+  <style>
+    .above {
+      margin-top: 0.5em;
+    }
+  </style>
+  <script>
+    function doSubmit() {
+      var txt = document.getElementById("searchtext").value;
+      var resultsdiv = document.getElementById("searchresults");
+      resultsdiv.innerHTML = "No results found for \"" + txt + "\". (This is just a test page.)";
+      return false;
+    }
+
+    function doClear() {
+      document.body.innerHTML = "";
+    }
+
+    window.onload = function () {
+      var domi = document.getElementById("domi");
+      if ("undefined" === typeof (window.performance) || "undefined" === typeof (performance.timing)) {
+        domi.innerHTML = "Nav timing is not supported. Try Chrome.";
+      }
+      else {
+        t = performance.timing;
+        domi.innerHTML = "domInteractive = " + (t.domInteractive - t.navigationStart) + " ms";
+
+        console.log('domInteractive', t.domInteractive - t.navigationStart)
+        console.log('domContentLoadedEventEnd', t.domContentLoadedEventEnd - t.navigationStart)
+      }
+    }
+  </script>
+  <!--<link href="http://localhost:8001/sleep?type=css" rel="stylesheet">-->
+</head>
+
+<body>
+  <h1>domInteractive JS - too conservative</h1>
+
+  <div style="margin: 1em; padding: 1em; border: 1px solid;">
+    <div>This is the critical interactive content:</div>
+    <div class=above>
+      <a href="ix-js.php" onclick="doClear()">Script</a> &nbsp;|&nbsp;
+      <a href="ix-css.php" onclick="doClear()">Stylesheet</a> &nbsp;|&nbsp;
+      <a href="ix-font.php" onclick="doClear()">Font</a> &nbsp;|&nbsp;
+      <a href="http://stevesouders.com/blog/">blog post</a>
+    </div>
+    <div class=above>
+      <form onsubmit="doSubmit(); return false">
+        Search:
+        <input type=text id=searchtext value=something>
+        <input type=submit>
+      </form>
+    </div>
+  </div>
+
+  <div class=above id=searchresults style="height: 2em; color: #C00;">
+  </div>
+
+  <div class=above id=domi style="font-size: 2em">
+  </div>
+
+  <script>
+                      console.log('test')
+  </script>
+  <script src="http://localhost:8001/sleep"></script>
+
+</body>
+
+</html>
