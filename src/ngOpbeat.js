@@ -77,7 +77,7 @@ function registerOpbeatModule (services) {
   var angularInitializer = services.angularInitializer
 
   var routeChanged = false
-  function moduleRun ($rootScope) {
+  function moduleRun ($rootScope, $injector) {
     configService.set('isInstalled', true)
     configService.set('opbeatAgentName', 'opbeat-angular')
     configService.set('platform.framework', 'angular/' + window.angular.version.full)
@@ -89,24 +89,14 @@ function registerOpbeatModule (services) {
 
     logger.debug('Agent:', configService.getAgentName())
 
-    // onRouteChangeStart
-    function onRouteChangeStart (event, current) {
+    function startRouteChange (name) {
       routeChanged = true
       if (!configService.get('performance.enable')) {
         logger.debug('Performance monitoring is disable')
         return
       }
       logger.debug('Route change started')
-      var transactionName
-      if (current.$$route) { // ngRoute
-        // ignoring redirects since we will get another event
-        if (typeof current.$$route.redirectTo !== 'undefined') {
-          return
-        }
-        transactionName = current.$$route.originalPath
-      } else { // UI Router
-        transactionName = current.name
-      }
+      var transactionName = name
       if (transactionName === '' || typeof transactionName === 'undefined') {
         transactionName = '/'
       }
@@ -114,11 +104,36 @@ function registerOpbeatModule (services) {
       transactionService.startTransaction(transactionName, 'route-change')
     }
 
-    // ng-router
-    $rootScope.$on('$routeChangeStart', onRouteChangeStart)
+    function onRouteChangeStart (event, current) {
+      var transactionName
+      if (current && current.$$route) { // ngRoute
+        // ignoring redirects since we will get another event
+        if (typeof current.$$route.redirectTo !== 'undefined') {
+          return
+        }
+        transactionName = current.$$route.originalPath
+      } else if (current && current.name) { // UI Router
+        transactionName = current.name
+      }
+      startRouteChange(transactionName)
+    }
 
-    // ui-router
-    $rootScope.$on('$stateChangeStart', onRouteChangeStart)
+    // ui-router 1
+    if ($injector.has('$transitions')) {
+      var $transitions = $injector.get('$transitions')
+
+      $transitions.onStart({ }, function uiRouterOnStart (trans) {
+        var to = trans.to()
+        startRouteChange(to.name)
+      })
+    } else {
+
+      // ng-router
+      $rootScope.$on('$routeChangeStart', onRouteChangeStart)
+
+      // ui-router
+      $rootScope.$on('$stateChangeStart', onRouteChangeStart)
+    }
   }
 
   function moduleConfig ($provide) {
@@ -150,7 +165,7 @@ function registerOpbeatModule (services) {
       window.angular.module('ngOpbeat', [])
         .provider('$opbeat', new NgOpbeatProvider(logger, configService, exceptionHandler))
         .config(['$provide', moduleConfig])
-        .run(['$rootScope', moduleRun])
+        .run(['$rootScope', '$injector', moduleRun])
 
       angularInitializer.beforeBootstrap = function beforeBootstrap () {
         transactionService.metrics['appBeforeBootstrap'] = performance.now()

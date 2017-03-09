@@ -26,7 +26,7 @@ describe('ngOpbeat', function () {
     zoneServiceMock = new ZoneServiceMock()
     serviceContainer.services.zoneService = zoneServiceMock
 
-    transactionService = new TransactionService(zoneServiceMock, logger, {})
+    transactionService = new TransactionService(zoneServiceMock, logger, config)
     serviceContainer.services.transactionService = transactionService
 
     serviceContainer.services.angularInitializer = {
@@ -36,6 +36,7 @@ describe('ngOpbeat', function () {
     // serviceContainer.services.exceptionHandler = exceptionHandler
 
     spyOn(transactionService, 'startTrace')
+    spyOn(transactionService, 'startTransaction')
 
     window.angular.module('patchModule', ['ngOpbeat'])
       .config(function ($provide) {
@@ -48,23 +49,83 @@ describe('ngOpbeat', function () {
       })
   })
 
-  it('should not start transactions if performance is disable', function () {
-    if (!config.isPlatformSupported()) {
-      return
-    }
-    ngOpbeat(serviceContainer.services)
-    config.setConfig({appId: 'test', orgId: 'test', isInstalled: true, performance: {enable: false}})
-    expect(config.isValid()).toBe(true)
-    expect(config.get('performance.enable')).toBe(false)
+  // #region: Supported platforms
+  if (Config.isPlatformSupported()) {
+    it('should not start transactions if performance is disable', function () {
+      ngOpbeat(serviceContainer.services)
+      config.setConfig({appId: 'test', orgId: 'test', isInstalled: true, performance: {enable: false}})
+      expect(config.isValid()).toBe(true)
+      expect(config.get('performance.enable')).toBe(false)
 
-    var angular = window.angular
+      var angular = window.angular
 
-    var injector = angular.bootstrap('<div></div>', ['patchModule'])
-    injector.invoke(function ($rootScope) {
-      $rootScope.$broadcast('$routeChangeStart')
-      expect(logger.debug).toHaveBeenCalledWith('Performance monitoring is disable')
+      var injector = angular.bootstrap('<div></div>', ['patchModule'])
+      injector.invoke(function ($rootScope) {
+        $rootScope.$broadcast('$routeChangeStart')
+        expect(logger.debug).toHaveBeenCalledWith('Performance monitoring is disable')
+      })
     })
-  })
+
+    it('should use ui.router $transition if available', function () {
+      var angular = window.angular
+
+      var onStartCallback
+      function $transitions () {
+        this.trans = {
+          onStart: function (options, callback) {
+            onStartCallback = callback
+          }
+        }
+        this.$get = [function () {
+          return this.trans
+        }]
+      }
+      angular.module('patchModule')
+        .provider('$transitions', $transitions)
+        .config(function ($opbeatProvider) {
+          $opbeatProvider.config({appId: 'test'})
+          expect(config.get('appId')).toBe('test')
+        })
+
+      ngOpbeat(serviceContainer.services)
+
+      var injector = angular.bootstrap('<div></div>', ['patchModule'])
+
+      expect(typeof onStartCallback).toBe('function')
+      onStartCallback({
+        to: function () {
+          return {name: 'route name'}
+        }
+      })
+    })
+
+    it('should register route change event listeners', function () {
+      ngOpbeat(serviceContainer.services)
+
+      var angular = window.angular
+      angular.module('patchModule')
+        .config(function ($provide, $opbeatProvider) {
+          $opbeatProvider.config({appId: 'test'})
+          expect(config.get('appId')).toBe('test')
+        })
+
+      var injector = angular.bootstrap('<div></div>', ['patchModule'])
+
+      // ui router
+      injector.invoke(function ($rootScope) {
+        $rootScope.$broadcast('$stateChangeStart', {name: 'test ui route change'})
+      })
+
+      expect(transactionService.startTransaction).toHaveBeenCalledWith('test ui route change', 'route-change')
+
+      // ng route
+      injector.invoke(function ($rootScope) {
+        $rootScope.$broadcast('$routeChangeStart', {$$route: {originalPath: 'test ng route change'}})
+      })
+      expect(transactionService.startTransaction).toHaveBeenCalledWith('test ng route change', 'route-change')
+    })
+  }
+  // #endregion
 
   it('should set correct log level', function () {
     ngOpbeat(serviceContainer.services)
