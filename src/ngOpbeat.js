@@ -77,6 +77,8 @@ function registerOpbeatModule (services) {
   var angularInitializer = services.angularInitializer
 
   var routeChanged = false
+  var hardNavigation = true
+
   function moduleRun ($rootScope, $injector) {
     configService.set('isInstalled', true)
     configService.set('opbeatAgentName', 'opbeat-angular')
@@ -101,7 +103,11 @@ function registerOpbeatModule (services) {
         transactionName = '/'
       }
 
-      transactionService.startTransaction(transactionName, 'route-change')
+      var tr = transactionService.startTransaction(transactionName, 'route-change')
+      if (tr && hardNavigation) {
+        hardNavigation = false
+        tr.isHardNavigation = true
+      }
     }
 
     function onRouteChangeStart (event, current) {

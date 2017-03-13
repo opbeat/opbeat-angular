@@ -36,7 +36,7 @@ describe('ngOpbeat', function () {
     // serviceContainer.services.exceptionHandler = exceptionHandler
 
     spyOn(transactionService, 'startTrace')
-    spyOn(transactionService, 'startTransaction')
+    spyOn(transactionService, 'startTransaction').and.callThrough()
 
     window.angular.module('patchModule', ['ngOpbeat'])
       .config(function ($provide) {
