@@ -29,7 +29,7 @@
   },
   "dependencies": {
     "loglevel": "^1.4.0",
-    "opbeat-js-core": "git://github.com/opbeat/opbeat-js-core",
+    "opbeat-js-core": "0.1.0",
     "zone.js": "git://github.com/jahtalab/zone.js.git#dist"
   },
   "devDependencies": {
