@@ -14,5 +14,5 @@ describe('opbeat-angular trackjs', function () {
       })
   })
 
-  afterEach(utils.verifyNoBrowserErrors)
+  afterEach(utils.verifyNoBrowserErrors.bind(this, ['allowSomeBrowserErrors', 'trackjs_test']))
 })
