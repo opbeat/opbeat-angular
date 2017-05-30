@@ -1,4 +1,4 @@
-var utils = require('../../e2e/utils')
+var utils = require('opbeat-test/webdriverio-utils')
 xdescribe('simple app - requirejs', function () {
   beforeEach(utils.verifyNoBrowserErrors)
 

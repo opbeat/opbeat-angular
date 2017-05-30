@@ -1,4 +1,4 @@
-var utils = require('../../e2e/utils')
+var utils = require('opbeat-test/webdriverio-utils')
 describe('angular.ui_router_app', function () {
   beforeEach(utils.verifyNoBrowserErrors)
 

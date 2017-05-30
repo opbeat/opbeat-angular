@@ -1,4 +1,4 @@
-var utils = require('../../e2e/utils')
+var utils = require('opbeat-test/webdriverio-utils')
 describe('minified_module_app', function () {
   beforeEach(utils.verifyNoBrowserErrors)
 

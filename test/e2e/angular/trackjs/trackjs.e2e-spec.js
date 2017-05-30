@@ -1,4 +1,4 @@
-var utils = require('../../e2e/utils')
+var utils = require('opbeat-test/webdriverio-utils')
 describe('opbeat-angular trackjs', function () {
   beforeEach(utils.verifyNoBrowserErrors)
 
