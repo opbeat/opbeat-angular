@@ -38,7 +38,7 @@ exports.config = {
       browserName: 'chrome',
       'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
       before: function () {
-        browser.timeoutsAsyncScript(30000)
+        browser.timeouts('script', 30000)
       }
     }
   ],
@@ -137,7 +137,7 @@ exports.config = {
   // variables like `browser`. It is the perfect place to define custom commands.
   before: function () {
     // do something
-    browser.timeoutsAsyncScript(30000)
+    browser.timeouts('script', 30000)
 
     // check if the environment contains a specific angular version
     // that we will be testing for

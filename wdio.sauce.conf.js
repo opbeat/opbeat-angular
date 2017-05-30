@@ -6,7 +6,7 @@ config.capabilities = [
     'version': '45.0',
     name: 'e2e',
     before: function () {
-      browser.timeoutsAsyncScript(30000)
+      browser.timeouts('script', 30000)
     }
   }
 ]
