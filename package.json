@@ -79,6 +79,7 @@
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
     "wdio-jasmine-framework": "^0.2.8",
+    "wdio-spec-reporter": "^0.1.0",
     "webdriverio": "^4.8.0"
   },
   "standard": {
