@@ -1,7 +1,7 @@
 var angularInitializer = require('../../src/angularInitializer')
 
 var opbeatCore = require('opbeat-js-core')
-var ZoneServiceMock = opbeatCore.test.ZoneServiceMock
+var ZoneServiceMock = require('opbeat-js-core/test/performance/zoneServiceMock')
 var ServiceFactory = opbeatCore.ServiceFactory
 
 var Config = opbeatCore.ConfigService

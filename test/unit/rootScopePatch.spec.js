@@ -2,7 +2,7 @@ var patchRootScope = require('../../src/patches/rootScopePatch')
 var opbeatCore = require('opbeat-js-core')
 var TransactionService = opbeatCore.TransactionService
 var logger = require('loglevel')
-var ZoneServiceMock = opbeatCore.test.ZoneServiceMock
+var ZoneServiceMock = require('opbeat-js-core/test/performance/zoneServiceMock')
 
 var Config = opbeatCore.ConfigService
 if(!Config.isPlatformSupported()){
