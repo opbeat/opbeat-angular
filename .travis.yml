@@ -26,6 +26,9 @@ cache:
 
 addons:
  firefox: "38.0"
+ apt:
+   packages:
+     - oracle-java8-set-default
 
 before_script:
   - (cd test/e2e && npm install && npm install angular@$ANGULAR_VERSION angular-resource@$ANGULAR_VERSION angular-route@$ANGULAR_VERSION)
