@@ -3,8 +3,8 @@ var utils = require('opbeat-test/webdriverio-utils')
 describe('angular.simple_app', function () {
   beforeEach(utils.verifyNoBrowserErrors)
 
-  it('should have correct number of transactions and traces', function (done) {
-    browser.url('/angular/index.e2e.html')
+  it('should have correct number of transactions and traces', function () {
+    return browser.url('/angular/index.e2e.html#/')
       .executeAsync(function (cb) {
         window.e2eUtils.runFixture('./simple_app/simple_app.js', ['angular', './opbeat-angular.e2e.js', 'angular-route'], {
           beforeInit: function (app, deps) {
@@ -29,14 +29,13 @@ describe('angular.simple_app', function () {
         expect(first.transactions.length).toBe(1)
         expect(first.transactions[0].transaction).toBe('/')
 
-        done()
       }, function (error) {
         console.log(error)
       })
   })
 
-  it('should have correct number of transactions and traces using ng-app', function (done) {
-    browser.url('/angular/index.ngApp.html')
+  it('should have correct number of transactions and traces using ng-app', function () {
+    return browser.url('/angular/index.ngApp.html')
       .executeAsync(function (cb) {
         window.simple_app.init()
         window.e2e.getTransactions(function (trs) {
@@ -48,19 +47,19 @@ describe('angular.simple_app', function () {
         expect(transactions.length).toBe(1)
 
         var first = transactions[0]
-        expect(first.traces.groups.length).toBeGreaterThan(7)
+
+        expect(first.traces.groups.length).toBeGreaterThan(8)
         expect(first.traces.raw[0].length).toBeGreaterThan(11)
         expect(first.transactions.length).toBe(1)
         expect(first.transactions[0].transaction).toBe('/')
 
-        done()
       }, function (error) {
         console.log(error)
       })
   })
 
-  it('should be running the correct major/minor version of angular', function (done) {
-    browser.url('/angular/index.e2e.html').then(function () {
+  it('should be running the correct major/minor version of angular', function () {
+    return browser.url('/angular/index.e2e.html').then(function () {
       browser.executeAsync(function (cb) {
         window.e2eUtils.loadDependencies(['angular'], function () {
           cb(window.angular.version)
@@ -73,7 +72,6 @@ describe('angular.simple_app', function () {
         expect(version.major).toEqual(browser.expectedAngularVersion.major)
         expect(version.minor).toEqual(browser.expectedAngularVersion.minor)
 
-        done()
       })
     })
   })

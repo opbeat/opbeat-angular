@@ -2,8 +2,8 @@ var utils = require('opbeat-test/webdriverio-utils')
 describe('minified_module_app', function () {
   beforeEach(utils.verifyNoBrowserErrors)
 
-  it('should have correct number of transactions and traces', function (done) {
-    browser.url('/angular/index.e2e.html')
+  it('should have correct number of transactions and traces', function () {
+    return browser.url('/angular/index.e2e.html')
       .executeAsync(function (cb) {
         window.e2eUtils.runFixture('./minified_module_app/minified_module_app.js', ['../../dist/dev/opbeat-angular.e2e.min.js', 'offline-js', 'angular', 'angular-ui-router'], {
           beforeInit: function (app, deps) {
@@ -43,12 +43,10 @@ describe('minified_module_app', function () {
         expect(first.traces.raw[0].length).toBeGreaterThan(15)
         expect(first.transactions.length).toBe(1)
         expect(first.transactions[0].transaction).toBe('minified_module_app_exponentialstate')
-
-        done()
       }, function (error) {
         console.log(error)
       })
   })
 
-  afterEach(utils.verifyNoBrowserErrors)
+  afterEach(utils.allowSomeBrowserErrors.bind(this, ['angular/common/non-existing 0:0 Failed to load resource: the server responded with a status of 404 (Not Found)']))
 })

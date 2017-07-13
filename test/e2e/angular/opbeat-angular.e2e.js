@@ -13,7 +13,7 @@ TransportMock.prototype.sendTransaction = function (transactions) {
   this.transactions = this.transactions.concat(transactions)
   var trMock = this
   if (this._transport) {
-    this._transport.sendTransaction(transactions).then(function () {
+    return this._transport.sendTransaction(transactions).then(function () {
       trMock.subscription.applyAll(this, [transactions])
     }, function (reason) {
       console.log('Failed to send to opbeat: ', reason)

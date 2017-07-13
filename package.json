@@ -74,11 +74,11 @@
     "proxyquireify": "^3.0.1",
     "run-sequence": "^1.1.5",
     "sauce-connect-launcher": "^0.14.0",
-    "selenium-standalone": "^5.8.0",
+    "selenium-standalone": "^6.5.0",
     "standard": "^5.4.1",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
-    "wdio-jasmine-framework": "^0.2.8",
+    "wdio-jasmine-framework": "^0.2.19",
     "wdio-spec-reporter": "^0.1.0",
     "webdriverio": "^4.8.0"
   },

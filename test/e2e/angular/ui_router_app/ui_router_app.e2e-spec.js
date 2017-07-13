@@ -2,8 +2,8 @@ var utils = require('opbeat-test/webdriverio-utils')
 describe('angular.ui_router_app', function () {
   beforeEach(utils.verifyNoBrowserErrors)
 
-  it('should have correct number of transactions and traces', function (done) {
-    browser.url('/angular/index.e2e.html')
+  it('should have correct number of transactions and traces', function () {
+    return browser.url('/angular/index.e2e.html')
       .executeAsync(function (cb) {
         window.e2eUtils.runFixture('./ui_router_app/ui_router_app.js', ['./opbeat-angular.e2e.js', 'angular', 'angular-ui-router'], {
           beforeInit: function (app, deps) {
@@ -35,14 +35,13 @@ describe('angular.ui_router_app', function () {
         expect(first.transactions.length).toBe(1)
         expect(first.transactions[0].transaction).toBe('ui_router_app_exponentialstate.substate')
 
-        done()
       }, function (error) {
         console.log(error)
       })
   })
 
-  it('should not send any transaction if config is not valid', function (done) {
-    browser.url('/angular/index.e2e.html')
+  it('should not send any transaction if config is not valid', function () {
+    return browser.url('/angular/index.e2e.html')
       .executeAsync(function (cb) {
         window.e2eUtils.runFixture('./ui_router_app/ui_router_app.js', ['angular', './opbeat-angular.e2e.js', 'angular-ui-router'], {
           beforeInit: function (app, deps) {
@@ -70,11 +69,10 @@ describe('angular.ui_router_app', function () {
       .then(function (response) {
         var transactions = response.value
         expect(transactions.length).toBe(0)
-        done()
       }, function (error) {
         console.log(error)
       })
   })
 
-  afterEach(utils.verifyNoBrowserErrors)
+  afterEach(utils.allowSomeBrowserErrors.bind(this, ['angular/common/non-existing 0:0 Failed to load resource: the server responded with a status of 404 (Not Found)']))
 })
