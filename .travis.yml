@@ -25,7 +25,7 @@ cache:
   - test/e2e/node_modules
 
 addons:
- firefox: "38.0"
+ firefox: "53.0"
  apt:
    packages:
      - oracle-java8-set-default
