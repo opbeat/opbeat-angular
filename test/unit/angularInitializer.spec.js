@@ -1,7 +1,6 @@
 var angularInitializer = require('../../src/angularInitializer')
 
 var opbeatCore = require('opbeat-js-core')
-var ZoneServiceMock = require('opbeat-js-core/test/performance/zoneServiceMock')
 var ServiceFactory = opbeatCore.ServiceFactory
 
 var Config = opbeatCore.ConfigService
@@ -17,13 +16,13 @@ describe('angularInitializer', function () {
   beforeEach(function () {
     originalOnError = window.onerror
     originalAngular = window.angular
+    // need this to make sure other tests are not affected by patching methods on angular since we are not using ZoneServiceMock.
+    window.angular = Object.create(window.angular)
     serviceFactory = new ServiceFactory()
     config = Object.create(Config)
     config.init()
     serviceFactory.services['ConfigService'] = config
     serviceContainer = serviceFactory.getPerformanceServiceContainer()
-    zoneService = new ZoneServiceMock()
-    serviceContainer.services.zoneService = zoneService
   })
 
   it('should inject with ngMock', function () {
@@ -62,6 +61,25 @@ describe('angularInitializer', function () {
     angularInitializer(serviceFactory)
     config.setConfig({appId: 'test', orgId: 'test'})
     expect(typeof window.onerror).toBe('function')
+  })
+
+  it('should consider isPlatformSupported', function () {
+    serviceContainer.services.transactionService = undefined
+    serviceContainer.services.configService.isPlatformSupported = function () {
+      return false
+    }
+
+    angularInitializer(serviceFactory)
+    window.angular.module('test', ['ngOpbeat'])
+
+    var injector = window.angular.injector(['ng', 'test'])
+    var $opbeat = injector.get('$opbeat')
+    expect($opbeat).toEqual(jasmine.any(Object))
+    expect($opbeat).toBeTruthy()
+
+    var div = document.createElement('div')
+    window.angular.bootstrap(div, ['test'])
+    expect(div.className).toBe('ng-scope')
   })
 
   afterEach(function () {

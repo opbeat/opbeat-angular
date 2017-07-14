@@ -34,7 +34,9 @@ function initialize (serviceFactory) {
   services.exceptionHandler = serviceFactory.getExceptionHandler()
   services.exceptionHandler.install()
   alreadyRegistered = registerOpbeatModule(services)
-  patchAngularBootstrap(services.zoneService, beforeBootstrap, afterBootstrap)
+  if (services.configService.isPlatformSupported()) {
+    patchAngularBootstrap(services.zoneService, beforeBootstrap, afterBootstrap)
+  }
 }
 
 function registerOpbeatModule (services) {
