@@ -37,7 +37,9 @@ describe('angularInitializer', function () {
 
   it('should register after angular is loaded', function () {
     window.angular.module('test', ['ngOpbeat'])
+    // simulating loading angular after angularInitializer
     window.angular = undefined
+
     angularInitializer(serviceFactory)
 
     var bootstrapIsCalled = false
@@ -51,6 +53,7 @@ describe('angularInitializer', function () {
         full: 'fullversion'
       }
     }
+
     fakeAngular.bootstrap('<div></div>', ['test'])
     expect(bootstrapIsCalled).toBeTruthy()
   })
@@ -87,6 +90,7 @@ describe('angularInitializer', function () {
     delete window.angular
     window.angular = originalAngular
     window.name = ''
+    // this is to make sure next test does not use the old ngOpbeat module defined in angular from another test
     window.angular.module('ngOpbeat', ['non-existing-module'])
     window.onerror = originalOnError
   })

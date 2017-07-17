@@ -22,21 +22,31 @@ function initialize (serviceFactory) {
 
   function beforeBootstrap (modules) {
     services['angularInitializer'].beforeBootstrap()
-    if (!alreadyRegistered) {
-      alreadyRegistered = registerOpbeatModule(services)
-    }
   }
 
   function afterBootstrap () {
     services['angularInitializer'].afterBootstrap()
   }
 
+  function opbeatBootstrap (fn, applyThis, applyArgs) {
+    if (!alreadyRegistered) {
+      alreadyRegistered = registerOpbeatModule(services)
+    }
+    var result
+    if (services.configService.isPlatformSupported()) {
+      beforeBootstrap()
+      result = services.zoneService.runInOpbeatZone(fn, applyThis, applyArgs, 'angular:bootstrap')
+      afterBootstrap()
+    } else {
+      result = fn.apply(applyThis, applyArgs)
+    }
+    return result
+  }
+
   services.exceptionHandler = serviceFactory.getExceptionHandler()
   services.exceptionHandler.install()
   alreadyRegistered = registerOpbeatModule(services)
-  if (services.configService.isPlatformSupported()) {
-    patchAngularBootstrap(services.zoneService, beforeBootstrap, afterBootstrap)
-  }
+  patchAngularBootstrap(opbeatBootstrap)
 }
 
 function registerOpbeatModule (services) {

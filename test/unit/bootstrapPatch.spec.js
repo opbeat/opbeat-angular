@@ -6,22 +6,27 @@ describe('bootstrapPatch', function () {
   var originalAngular
   var zoneService
   var DEFER_LABEL = 'NG_DEFER_BOOTSTRAP!'
+  var opbeatBootstrap
+
+  function fakeBootstrap (fn, applyThis, applyArgs) {
+    return fn.apply(applyThis, applyArgs)
+  }
 
   beforeEach(function () {
     originalAngular = window.angular
     zoneService = new ZoneServiceMock()
+    opbeatBootstrap = jasmine.createSpy('opbeatBootstrap').and.callFake(fakeBootstrap)
   })
 
   it('should call bootstrap', function () {
     // can't use spies since we're also patching bootstrap
     var bootstrapCalled = false
-    var beforeBootstrap = jasmine.createSpy('beforeBootstrap')
     zoneService.zone.name = '<root>'
     var fakeAngular = window.angular = {
       bootstrap: function (element, modules) {
         expect(element).toBe('document')
         expect(modules).toEqual(['modules'])
-        expect(beforeBootstrap).toHaveBeenCalled()
+        expect(opbeatBootstrap).toHaveBeenCalled()
         bootstrapCalled = true
         expect(typeof window.angular.resumeDeferredBootstrap).toBe('function')
         window.angular.resumeBootstrap = jasmine.createSpy('resumeBootstrap')
@@ -30,32 +35,29 @@ describe('bootstrapPatch', function () {
       }
     }
 
-    patchAngularBootstrap(zoneService, beforeBootstrap)
+    patchAngularBootstrap(opbeatBootstrap)
     fakeAngular.bootstrap('document', ['modules'])
-    expect(beforeBootstrap).toHaveBeenCalled()
+    expect(opbeatBootstrap).toHaveBeenCalled()
     expect(bootstrapCalled).toBe(true)
   })
 
   it('should not call if angular is undefined', function () {
-    var beforeBootstrap = jasmine.createSpy('beforeBootstrap')
     window.angular = undefined
-    patchAngularBootstrap(zoneService, beforeBootstrap)
-    expect(beforeBootstrap).not.toHaveBeenCalled()
+    patchAngularBootstrap(opbeatBootstrap)
+    expect(opbeatBootstrap).not.toHaveBeenCalled()
     window.angular = {}
   })
 
-  it('should not call beforeBootstrap if bootstrap is undefined', function () {
-    var beforeBootstrap = jasmine.createSpy('beforeBootstrap')
+  it('should not call opbeatBootstrap if bootstrap is undefined', function () {
     window.angular = {}
-    patchAngularBootstrap(zoneService, beforeBootstrap)
-    expect(beforeBootstrap).not.toHaveBeenCalled()
+    patchAngularBootstrap(opbeatBootstrap)
+    expect(opbeatBootstrap).not.toHaveBeenCalled()
   })
 
-  it('should beforeBootstrap after bootstrap is set but before it is called', function () {
-    var beforeBootstrap = jasmine.createSpy('beforeBootstrap')
+  it('should opbeatBootstrap after bootstrap is set but before it is called', function () {
     window.angular = {}
-    patchAngularBootstrap(zoneService, beforeBootstrap)
-    expect(beforeBootstrap).not.toHaveBeenCalled()
+    patchAngularBootstrap(opbeatBootstrap)
+    expect(opbeatBootstrap).not.toHaveBeenCalled()
     var bootstrapCalled = false
     window.angular.bootstrap = 'hamid'
     expect(window.angular.bootstrap).toBe('hamid')
@@ -63,16 +65,15 @@ describe('bootstrapPatch', function () {
       bootstrapCalled = true
     }
     window.angular.bootstrap()
-    expect(beforeBootstrap).toHaveBeenCalled()
+    expect(opbeatBootstrap).toHaveBeenCalled()
     expect(bootstrapCalled).toBe(true)
   })
 
   it('should patch resumeBootstrap if bootstrap is already deferred', function () {
     window.name = DEFER_LABEL + window.name
-    var beforeBootstrap = jasmine.createSpy('beforeBootstrap')
     window.angular = {}
-    patchAngularBootstrap(zoneService, beforeBootstrap)
-    expect(beforeBootstrap).not.toHaveBeenCalled()
+    patchAngularBootstrap(opbeatBootstrap)
+    expect(opbeatBootstrap).not.toHaveBeenCalled()
     window.angular.bootstrap = 'hamid'
     expect(window.angular.bootstrap).toBe('hamid')
 
@@ -85,17 +86,16 @@ describe('bootstrapPatch', function () {
     window.angular.bootstrap()
     window.angular.resumeBootstrap()
     expect(window.angular.resumeDeferredBootstrap).toBe(undefined)
-    expect(beforeBootstrap).toHaveBeenCalled()
+    expect(opbeatBootstrap).toHaveBeenCalled()
     expect(bootstrapCalled).toBe(true)
   })
 
   it('should patch resumeBootstrap if bootstrap is not called directly ', function () {
     window.name = DEFER_LABEL + window.name
-    var beforeBootstrap = jasmine.createSpy('beforeBootstrap')
     window.angular = {}
-    patchAngularBootstrap(zoneService, beforeBootstrap)
+    patchAngularBootstrap(opbeatBootstrap)
 
-    expect(beforeBootstrap).not.toHaveBeenCalled()
+    expect(opbeatBootstrap).not.toHaveBeenCalled()
     var resumeBootstrapCalled = false
 
     window.angular.resumeBootstrap = function () {
@@ -104,16 +104,15 @@ describe('bootstrapPatch', function () {
 
     window.angular.resumeBootstrap()
     expect(window.angular.resumeDeferredBootstrap).toBe(undefined)
-    expect(beforeBootstrap).toHaveBeenCalled()
+    expect(opbeatBootstrap).toHaveBeenCalled()
     expect(resumeBootstrapCalled).toBe(true)
   })
 
   it('should set resumeDeferredBootstrap if bootstrap is not deferred', function () {
-    var beforeBootstrap = jasmine.createSpy('beforeBootstrap')
     window.angular = {}
-    patchAngularBootstrap(zoneService, beforeBootstrap)
+    patchAngularBootstrap(opbeatBootstrap)
 
-    expect(beforeBootstrap).not.toHaveBeenCalled()
+    expect(opbeatBootstrap).not.toHaveBeenCalled()
     var resumeBootstrapCalled = false
 
     window.angular.resumeBootstrap = function () {
@@ -122,16 +121,15 @@ describe('bootstrapPatch', function () {
 
     expect(typeof window.angular.resumeDeferredBootstrap).toBe('function')
     window.angular.resumeDeferredBootstrap()
-    expect(beforeBootstrap).toHaveBeenCalled()
+    expect(opbeatBootstrap).toHaveBeenCalled()
     expect(resumeBootstrapCalled).toBe(true)
   })
 
   it('should set resumeDeferredBootstrap if bootstrap is not deferred and bootstrap is called directly', function () {
-    var beforeBootstrap = jasmine.createSpy('beforeBootstrap')
     window.angular = {}
-    patchAngularBootstrap(zoneService, beforeBootstrap)
+    patchAngularBootstrap(opbeatBootstrap)
 
-    expect(beforeBootstrap).not.toHaveBeenCalled()
+    expect(opbeatBootstrap).not.toHaveBeenCalled()
     var resumeBootstrapCalled = false
 
     var bootstrapCalled = false
@@ -147,7 +145,7 @@ describe('bootstrapPatch', function () {
     window.angular.bootstrap()
     window.angular.resumeDeferredBootstrap()
 
-    expect(beforeBootstrap).toHaveBeenCalled()
+    expect(opbeatBootstrap).toHaveBeenCalled()
     expect(resumeBootstrapCalled).toBe(true)
     expect(bootstrapCalled).toBe(true)
   })

@@ -98,18 +98,7 @@ function patchAll (opbeatBootstrap) {
   patchMainBootstrap(opbeatBootstrap, weDeferred)
 }
 
-function patchAngularBootstrap (zoneService, beforeBootstrap, afterBootstrap) {
-  function opbeatBootstrap (fn, applyThis, applyArgs) {
-    if (typeof beforeBootstrap === 'function') {
-      beforeBootstrap()
-    }
-    var result = zoneService.runInOpbeatZone(fn, applyThis, applyArgs, 'angular:bootstrap')
-    if (typeof afterBootstrap === 'function') {
-      afterBootstrap()
-    }
-    return result
-  }
-
+function patchAngularBootstrap (opbeatBootstrap) {
   if (window.angular) {
     patchAll(opbeatBootstrap)
   } else {
