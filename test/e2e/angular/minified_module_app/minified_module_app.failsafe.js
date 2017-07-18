@@ -1,7 +1,7 @@
 // var utils = require('opbeat-test/webdriverio-utils')
 describe('minified_module_app.failsafe', function () {
-  it('should run application without error', function (done) {
-    browser
+  it('should run application without error', function () {
+    return browser
       .url('/angular/index.e2e.html')
       .executeAsync(function (cb) {
         window.e2eUtils.runFixture('./minified_module_app/minified_module_app.js', ['../../dist/dev/opbeat-angular.min.js', 'angular', 'angular-ui-router'], {
@@ -34,7 +34,6 @@ describe('minified_module_app.failsafe', function () {
         var errors = trs.value
         expect(errors.length).toBe(0)
         console.log('errors: ', errors)
-        done()
       }, function (error) {
         console.log(error)
       })
