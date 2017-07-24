@@ -139,7 +139,7 @@ function setup () {
     paths: {
       'trackjs': 'https://cdn.trackjs.com/releases/current/tracker.js',
       'opbeat-angular': '../src/opbeat-angular.js',
-      'zone.js': '/node_modules/zone.js/dist/zone.js',
+      'opbeat-zone': '/node_modules/opbeat-zone/dist/zone.js',
       'semantic-ui-dropdown': '/node_modules/semantic-ui-dropdown/dropdown.js',
       'semantic-ui-transition': '/node_modules/semantic-ui-transition/transition.js',
       '*': '/node_modules/*'

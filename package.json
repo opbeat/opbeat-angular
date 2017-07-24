@@ -25,12 +25,12 @@
     "url": "https://github.com/opbeat/opbeat-angular.git"
   },
   "browser": {
-    "zone.js": "./node_modules/zone.js/dist/zone.js"
+    "opbeat-zone": "./node_modules/opbeat-zone/dist/zone.js"
   },
   "dependencies": {
     "loglevel": "^1.4.0",
-    "opbeat-js-core": "0.3.2",
-    "zone.js": "git://github.com/jahtalab/zone.js.git#dist"
+    "opbeat-js-core": "^0.3.2",
+    "opbeat-zone": "^0.8.12-prm"
   },
   "devDependencies": {
     "angular": "^1.5.0",

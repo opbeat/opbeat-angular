@@ -7,7 +7,7 @@ module.exports = function (config) {
     'test/utils/polyfill.js',
     'node_modules/angular/angular.js',
     'node_modules/angular-resource/angular-resource.js',
-    'node_modules/zone.js/dist/zone.js',
+    'node_modules/opbeat-zone/dist/zone.js',
     'node_modules/angular-mocks/angular-mocks.js',
     { pattern: 'src/**/*.js', included: false, watched: true }
   ]
