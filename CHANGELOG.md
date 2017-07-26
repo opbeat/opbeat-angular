@@ -1,3 +1,21 @@
+<a name="3.15.0"></a>
+# [3.15.0](https://github.com/opbeat/opbeat-angular/compare/v3.14.0...v3.15.0) (2017-07-26)
+
+
+### Bug Fixes
+
+* angularInitializer should only patch angular if platform is supported ([6c66751](https://github.com/opbeat/opbeat-angular/commit/6c66751))
+* explicitly set hard navigation on the first transaction ([6e6ecd4](https://github.com/opbeat/opbeat-angular/commit/6e6ecd4))
+* **bootstrapPatch:** fix registering ngOpbeat if opbeat is loaded first ([de881e9](https://github.com/opbeat/opbeat-angular/commit/de881e9))
+
+
+### Features
+
+* **ngOpbeat:** add support for ui router transitions ([a9951a2](https://github.com/opbeat/opbeat-angular/commit/a9951a2))
+* use opbeat-js-core 0.1.0 ([de66a8d](https://github.com/opbeat/opbeat-angular/commit/de66a8d))
+
+
+
 <a name="3.14.0"></a>
 # [3.14.0](https://github.com/opbeat/opbeat-angular/compare/v3.13.0...v3.14.0) (2017-02-22)
 
