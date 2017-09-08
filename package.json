@@ -76,7 +76,7 @@
     "proxyquireify": "^3.0.1",
     "run-sequence": "^1.1.5",
     "sauce-connect-launcher": "^0.14.0",
-    "selenium-standalone": "^6.5.0",
+    "selenium-standalone": "6.5.0",
     "standard": "^5.4.1",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
