@@ -5,8 +5,9 @@ var TransactionService = opbeatCore.TransactionService
 var logger = require('loglevel')
 var ZoneServiceMock = require('opbeat-js-core/test/performance/zoneServiceMock')
 
-var Config = opbeatCore.ConfigService
-if(!Config.isPlatformSupported()){
+var ConfigService = opbeatCore.ConfigService
+
+if(!(new ConfigService()).isPlatformSupported()){
   return
 }
 describe('angular.directivesPatch', function () {
@@ -14,7 +15,7 @@ describe('angular.directivesPatch', function () {
   beforeEach(function () {
     angular = window.angular
     app = angular.module('patchModule', ['ng'])
-    config = Object.create(Config)
+    config = new ConfigService()
     config.init()
   })
   it('should call startTrace for ngRepeat $watchCollection action', function () {

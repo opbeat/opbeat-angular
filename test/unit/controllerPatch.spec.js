@@ -2,7 +2,7 @@ var patchController = require('../../src/patches/controllerPatch')
 
 describe('controllerPatch', function () {
   var opbeatCore = require('opbeat-js-core')
-  var Config = opbeatCore.ConfigService
+  var ConfigService = opbeatCore.ConfigService
   var TransactionService = opbeatCore.TransactionService
 
   var ZoneServiceMock = require('opbeat-js-core/test/performance/zoneServiceMock')
@@ -18,7 +18,7 @@ describe('controllerPatch', function () {
 
   beforeEach(function () {
     var serviceFactory = new ServiceFactory()
-    config = Object.create(Config)
+    config = new ConfigService()
     config.init()
     serviceFactory.services['ConfigService'] = config
     serviceFactory.services['Logger'] = logger = Object.create(serviceFactory.getLogger())

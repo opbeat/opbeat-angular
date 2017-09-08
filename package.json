@@ -31,7 +31,7 @@
   },
   "dependencies": {
     "loglevel": "^1.4.0",
-    "opbeat-js-core": "^0.3.2",
+    "opbeat-js-core": "^0.4.0",
     "opbeat-zone": "^0.8.12-prm"
   },
   "devDependencies": {

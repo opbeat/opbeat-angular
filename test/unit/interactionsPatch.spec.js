@@ -4,7 +4,7 @@ var opbeatCore = require('opbeat-js-core')
 var TransactionService = opbeatCore.TransactionService
 var logger = require('loglevel')
 var ZoneServiceMock = require('opbeat-js-core/test/performance/zoneServiceMock')
-var Config = opbeatCore.ConfigService
+var ConfigService = opbeatCore.ConfigService
 
 describe('interactionsPatch', function () {
   var angular, app, config, injector, trService
@@ -12,7 +12,7 @@ describe('interactionsPatch', function () {
   beforeEach(function () {
     angular = window.angular
     app = angular.module('patchModule', ['ng'])
-    config = Object.create(Config)
+    config = new ConfigService()
     config.init()
 
     trService = new TransactionService(new ZoneServiceMock(), logger, config)
@@ -43,6 +43,7 @@ describe('interactionsPatch', function () {
 
   it('should work with ngSubmit', function () {
     injector.invoke(function ($compile, $rootScope) {
+      debugger;
       $rootScope.formSubmission = function (e) {
         if (e) {
           $rootScope.formSubmitted = 'foo'
@@ -53,6 +54,7 @@ describe('interactionsPatch', function () {
         '<input type="submit"/>' +
         '</form>')($rootScope)
       $rootScope.$digest()
+      document.body.appendChild(element[0])
 
       // prevent submit within the test harness
       element.on('submit', function (e) { e.preventDefault() })

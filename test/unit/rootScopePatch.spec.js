@@ -4,8 +4,9 @@ var TransactionService = opbeatCore.TransactionService
 var logger = require('loglevel')
 var ZoneServiceMock = require('opbeat-js-core/test/performance/zoneServiceMock')
 
-var Config = opbeatCore.ConfigService
-if(!Config.isPlatformSupported()){
+var ConfigService = opbeatCore.ConfigService
+var cfg = new ConfigService()
+if(!cfg.isPlatformSupported()){
   return
 }
 describe('angular.rootScopePatch', function () {
@@ -13,7 +14,7 @@ describe('angular.rootScopePatch', function () {
     var angular = window.angular
     var app = angular.module('patchModule', ['ng'])
 
-    var config = Object.create(Config)
+    var config = new ConfigService()
     config.init()
     var trService = new TransactionService(new ZoneServiceMock(), logger, config)
     spyOn(trService, 'startTrace')

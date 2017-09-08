@@ -3,7 +3,7 @@ var angularInitializer = require('../../src/angularInitializer')
 var opbeatCore = require('opbeat-js-core')
 var ServiceFactory = opbeatCore.ServiceFactory
 
-var Config = opbeatCore.ConfigService
+var ConfigService = opbeatCore.ConfigService
 
 describe('angularInitializer', function () {
   var originalOnError
@@ -19,7 +19,7 @@ describe('angularInitializer', function () {
     // need this to make sure other tests are not affected by patching methods on angular since we are not using ZoneServiceMock.
     window.angular = Object.create(window.angular)
     serviceFactory = new ServiceFactory()
-    config = Object.create(Config)
+    config = new ConfigService()
     config.init()
     serviceFactory.services['ConfigService'] = config
     serviceContainer = serviceFactory.getPerformanceServiceContainer()

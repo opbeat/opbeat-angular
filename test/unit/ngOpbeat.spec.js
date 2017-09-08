@@ -1,7 +1,7 @@
 describe('ngOpbeat', function () {
   var opbeatCore = require('opbeat-js-core')
 
-  var Config = opbeatCore.ConfigService
+  var ConfigService = opbeatCore.ConfigService
   var TransactionService = opbeatCore.TransactionService
   var ngOpbeat = require('../../src/ngOpbeat')
   var ZoneServiceMock = require('opbeat-js-core/test/performance/zoneServiceMock')
@@ -16,7 +16,7 @@ describe('ngOpbeat', function () {
   var exceptionHandler
   beforeEach(function () {
     var serviceFactory = new ServiceFactory()
-    config = Object.create(Config)
+    config = new ConfigService()
     config.init()
     serviceFactory.services['ConfigService'] = config
     serviceFactory.services['Logger'] = logger = Object.create(serviceFactory.getLogger())
@@ -50,7 +50,7 @@ describe('ngOpbeat', function () {
   })
 
   // #region: Supported platforms
-  if (Config.isPlatformSupported()) {
+  if ((new ConfigService()).isPlatformSupported()) {
     it('should not start transactions if performance is disable', function () {
       ngOpbeat(serviceContainer.services)
       config.setConfig({appId: 'test', orgId: 'test', isInstalled: true, performance: {enable: false}})
